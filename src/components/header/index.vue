@@ -32,36 +32,37 @@ export default {
   }
 }
 </script>
-<style scoped>
-.menu ul li{
-  display: inline;
-  padding: 20px;
-  list-style-type: none;
-}
+<style lang="scss" scoped>
 .header {
     margin-bottom: 55px;
-}
-.header .row{
-  padding: 15px;
-  background-color:Beige ;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1;
-
-}
-.menu ul a {
-  color: #000;
-  text-decoration: none;
-}
-.menu ul {
-  margin: 0;
-  padding: 0;
-}
-a.router-link-exact-active{
-  border-bottom: 4px solid black;
-  font-weight: bold;
-  padding-bottom: 15px;
+    .row {
+      padding: 15px;
+      background-color:Beige ;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+    }
+    .menu {
+      ul {
+        margin: 0;
+        padding: 0;
+        li {
+          display: inline;
+          padding: 20px;
+          list-style-type: none;
+        }
+        a {
+          color: #000;
+          text-decoration: none;
+          &.router-link-exact-active {
+            border-bottom: 4px solid black;
+            font-weight: bold;
+            padding-bottom: 15px;
+          }
+        }
+      }
+    }
 }
 
 </style>
