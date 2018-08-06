@@ -1,21 +1,21 @@
 <template id="">
   <div class="header">
-  <b-container fluid >
-    <b-row cols="12">
-      <b-col cols="2" sm="2" md="3" lg="6">
-        Logo
-      </b-col>
-      <b-col class="menu" cols="10" sm="10" md="9" lg="6">
-            <ul>
-             <router-link to="/"><li>Home</li></router-link>
-             <router-link to="/man"><li>Men</li></router-link>
-             <router-link to="/woman"><li>Women</li></router-link>
-             <router-link to="/kids"><li>Kids</li></router-link>
-           </ul>
-      </b-col>
-    </b-row>
-  </b-container>
-</div>
+    <b-container fluid >
+      <b-row cols="12">
+        <b-col cols="2" sm="2" md="3" lg="6">
+            Logo
+        </b-col>
+        <b-col class="menu" cols="10" sm="10" md="9" lg="6">
+          <ul>
+            <router-link to="/"><li>Home</li></router-link>
+            <router-link to="/man"><li>Men</li></router-link>
+            <router-link to="/woman"><li>Women</li></router-link>
+            <router-link to="/kids"><li>Kids</li></router-link>
+          </ul>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
 </template>
 <script>
 export default {
@@ -28,7 +28,6 @@ export default {
   watch: {
     $route () {
       this.order = localStorage.orderitem
-      this.sta = localStorage.women
     }
   }
 }
