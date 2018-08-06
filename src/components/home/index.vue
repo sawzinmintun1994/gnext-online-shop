@@ -3,7 +3,7 @@
     <b-container fluid class="cover">
       <b-row>
         <b-col cols="12" md="6">
-          <b-img :src="require('https://fashion-entertainments.com/img/product/lineup_b/01.png')" />
+          <b-img :src="require('@/assets/watchs.jpg')" />
         </b-col>
         <b-col cols="12"md="6">
           <h5>TERNDING COLLECTION</h5>
