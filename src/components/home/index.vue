@@ -6,7 +6,7 @@
           <b-img :src="require('@/assets/watchs.jpg')" />
         </b-col>
         <b-col cols="12"md="6">
-          <h5>TERNDING COLLECTION</h5>
+          <h5>TERNDING COLLECTION COLLECTION</h5>
           <h2><span style="color:orange;">BRAND</span>WATCH</h2>
           <P>This watch is a good quality</p>
           <span>Price:</span><span style="font-size:150%;">$220</span><br>
