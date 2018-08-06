@@ -1,57 +1,172 @@
 <template>
   <div class="">
-    <b-container fluid class="popular-items">
+    <b-container fluid class="cover">
       <b-row>
-          <b-col class="text-center" cols="12" sm="4" md="4" lg="5" xl="5">
-            <!-- <img src="@/assets/logo.png" alt=""> -->
-            <b-img src="https://fashion-entertainments.com/img/product/lineup_b/01.png" />
-          </b-col>
-          <b-col cols="12" sm="8" md="8" lg="7" xl="7">
-            <h5>COLLECTION</h5>
-            <h1>Vue Vue</h1>
-            <p>vue vue vuevue vue vuevue vue vuevue vue vuevue vue vue vue vue
-              vuevue vue vuevue vue vuevue vue vuevue vue vuevue vue vue</p>
-            <h5>Price: <span>$555</span></h5>
-            <b-button class="buy-now mt-2">Buy Now</b-button>
-          </b-col>
+        <b-col cols="12" md="6">
+          <b-img :src="require('https://fashion-entertainments.com/img/product/lineup_b/01.png')" />
+        </b-col>
+        <b-col cols="12"md="6">
+          <h5>TERNDING COLLECTION</h5>
+          <h2><span style="color:orange;">BRAND</span>WATCH</h2>
+          <P>This watch is a good quality</p>
+          <span>Price:</span><span style="font-size:150%;">$220</span><br>
+          <b-btn class="btn">BuyNow</b-btn>
+        </b-col>
       </b-row>
     </b-container>
-
+    <b-container class="popular-products">
+      <b-row>
+        <b-col cols="6" md="4">
+          <h1>01</h1>
+          <h5 class="line">24/7 CUSTOMER CARE</h5>
+          <p>good products</p>
+        </b-col>
+        <b-col cols="6" md="4">
+          <h1>02</h1>
+          <h5 class="line">SAFE PAYMENT</h5>
+          <p>good products</p>
+        </b-col>
+        <b-col cols="6" md="4">
+          <h1>03</h1>
+          <h5 class="line">COLLECTION</h5>
+          <p>good products</p>
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container class="products">
+      <b-row>
+        <b-col>
+          <h1>PROPULAR PRODUCTS</h1>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-img :src="require('@/assets/owl.jpg')" />
+          <p>Products of bag</p>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <p><b>$190.50</b></p>
+        </b-col>
+        <b-col>
+          <img src="@/assets/hat.jpg" />
+          <p>Products of hat</p>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <p><b>$190.50</b></p>
+        </b-col>
+        <b-col>
+          <img src="@/assets/shose.jpg" />
+          <p>Products of shose</p>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <p><b>$190.50</b></p>
+        </b-col>
+        <b-col>
+          <img src="@/assets/slimbag.jpg" />
+          <p>Products of bag</p>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <p><b>$190.50</b></p>
+        </b-col>
+      </b-row>
+    </b-container>
+    <div class="more">
+      <b-btn name="button" type="button">More..</b-btn>
+    </div>
+    <b-container fluid class="overlap">
+      <b-row>
+        <b-col>
+          <h3>Discout Products</h3>
+          <p>This products get 20% off</p>
+          <b-btn name="button" type="button">BuyNow</b-btn>
+        </b-col>
+      </b-row>
+    </b-container>
     <b-container>
       <b-row align-h="center">
-        <b-col cols="12" sm="12" md="6" lg="6">
-          <waterfall :line-gap="200" :watch="items">
-            <!-- each component is wrapped by a waterfall slot -->
-            <waterfall-slot
-              v-for="(item, index) in items"
-              :width="item.width"
-              :height="item.height"
-              :order="index"
-              :key="index"
-              move-class="item-move"
-              class="p-2"
-              >
-              <b-img :src="item.path" fluid/>
-              <!-- <img v-bind:src="getImgUrl(item.src)" /> -->
-            </waterfall-slot>
-          </waterfall>
+       <b-col cols="12" md="6" lg="8" class="waterfall">
+          <waterfall :line-gap="200" :watch="items" >
+                <waterfall-slot
+                  v-for="(item, index) in items"
+                  :width="item.width"
+                  :height="item.height"
+                  :order="index"
+                  :key="item.id"
+                >
+                  <img :src="getImgUrl(item.path)" v-bind:alt="item.path" class="img-fluid"/>
+                </waterfall-slot>
+            </waterfall>
+      </b-col>
+     </b-row>
+  </b-container>
+  <div>
+    <b-container class="last-products">
+      <b-row>
+        <b-col>
+          <h1>PROPULAR PRODUCTS</h1>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-img :src="require('@/assets/owl.jpg')" />
+          <p>Products of bag</p>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <p><b>$190.50</b></p>
+        </b-col>
+        <b-col>
+          <img src="@/assets/hat.jpg" />
+          <p>Products of hat</p>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <p><b>$190.50</b></p>
+        </b-col>
+        <b-col>
+          <img src="@/assets/shose.jpg" />
+          <p>Products of shose</p>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <p><b>$190.50</b></p>
+        </b-col>
+        <b-col>
+          <img src="@/assets/slimbag.jpg" />
+          <p>Products of bag</p>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star "></span>
+          <span class="fa fa-star"></span>
+          <span class="fa fa-star"></span>
+          <p><b>$190.50</b></p>
         </b-col>
       </b-row>
     </b-container>
   </div>
+ </div>
 </template>
-
 <script>
-/* in xxx.vue */
-
 import Waterfall from 'vue-waterfall/lib/waterfall'
 import WaterfallSlot from 'vue-waterfall/lib/waterfall-slot'
-
-/*
- * or use ES5 code (vue-waterfall.min.js) :
- * import { Waterfall, WaterfallSlot } from 'vue-waterfall'
- */
-
 export default {
   components: {
     Waterfall,
@@ -60,30 +175,10 @@ export default {
   data () {
     return {
       items: [
-        {
-          width: 100,
-          height: 80,
-          path: 'http://joombig.com/demo-extensions1/images/gallery_slider/Swan_large.jpg',
-          src: 'logo.png'
-        },
-        {
-          width: 100,
-          height: 70,
-          path: 'https://www.w3schools.com/w3css/img_lights.jpg',
-          src: 'logo.png'
-        },
-        {
-          width: 100,
-          height: 80,
-          path: 'https://media.istockphoto.com/photos/plant-growing-picture-id510222832?k=6&m=510222832&s=612x612&w=0&h=Pzjkj2hf9IZiLAiXcgVE1FbCNFVmKzhdcT98dcHSdSk=',
-          src: 'logo.png'
-        },
-        {
-          width: 100,
-          height: 100,
-          path: 'https://wallpaperbrowse.com/media/images/3848765-wallpaper-images-download.jpg',
-          src: 'logo.png'
-        }
+        {height: 150, width: 200, path: 'coupleHat.jpg'},
+        {height: 100, width: 100, path: 'LadyShose.jpg'},
+        {height: 100, width: 100, path: 'engineer.jpg'},
+        {height: 200, width: 100, path: 'brand.jpg'}
       ]
     }
   },
@@ -94,24 +189,77 @@ export default {
   }
 }
 </script>
-
-<style lang="css">
-.popular-items {
-  background: #d8d8d8;
-  padding: 30px;
+<style scoped>
+ .cover {
+   background: honeydew;
+   padding: 20px;
+ }
+ .cover .row div:nth-child(1){
+   text-align: right;
+ }
+ .btn{
+   border-radius: 20px;
+   background: white;
+   color: black;
+   padding: 8px 30px;
+   font-size: 14px;
+   outline: none;
+   display: inline;
+   text-decoration: none;
+ }
+ .line{
+   positoion: relative;
+   display: inline-block;
+   padding-bottom:  20px;
+   }
+  .line::after{
+     content:'';
+     height: 3px;
+     width:20%;
+     background: orange;
+     position:absolute;
+     left:calc(15% - 10%);
+     bottom: 50px;
+  }
+  .products .row div h1{
+    text-align: center;
+  }
+  .products .row div h1::after{
+     content:"";
+     position:absolute;
+     width:100px;
+     border-bottom:3px solid orange;
+     bottom:0;
+     left:50%;
+     margin-left:-50px;
+  }
+  .more{
+    text-align: center;
+  }
+  .checked{
+    color: orange;
+  }
+  .img-fluid{
+    text-align: center;
+  }
+  .overlap{
+    background: #f1f1f1;
+    padding: 50px;
+    font-family: cursive;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 300px;
+  }
+  .waterfall{
+    content: '';
+    position: absolute;
+    top: 1030px;
+    right: 50;
+    width: 500px;
+    height: 50px;
+    bottom: 100px;
 }
-.buy-now {
-  display: block;
-  background: #fff;
-  color: #000;
-  border-radius: 20px;
-  border: 1px solid #000;
-}
-.buy-now:hover {
-  background: #000;
-}
-.item-move {
-  transition: all .5s cubic-bezier(.55,0,.1,1);
-  -webkit-transition: all .5s cubic-bezier(.55,0,.1,1);
+.new-container{
+  background: red;
 }
 </style>
