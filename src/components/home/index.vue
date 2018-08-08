@@ -34,6 +34,7 @@
       </b-row>
     </b-container>
     <b-container class="products col-12">
+    <b-container class="products">
       <b-row>
         <b-col>
           <h1>PROPULAR PRODUCTS</h1>
