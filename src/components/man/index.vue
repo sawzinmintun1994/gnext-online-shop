@@ -1,255 +1,333 @@
-<template>
-  <b-container>
-    <b-row class="mt-4 p-4 bg-success">
-      <b-col>
-        <b-form-select v-model="manSelected" :options="manOptions" />
-      </b-col>
-      <b-col>
-        <b-form-input v-model="search"
-                  type="text"
-                  placeholder="Enter your name"></b-form-input>
-      </b-col>
-      <b-col>
-        <b-button  @click="findData()">Search</b-button>
-        <div v-if="orderDataLists">
-          {{ JSON.parse(orderDataLists).length }}
-        </div>
-      </b-col>
-    </b-row>
-    <b-row class="mt-4 p-4 bg-info">
-      <b-col v-for="(v,index) in resultData" :key="index" lg="3" md="4" sm="6" cols="12" class="p-2 lists">
-        <div class="bg-warning">
-          <b-img :src="v.path" fluid />
-          <div class="p-2">
-            <span>{{v.type}}</span>
-            <h4>{{v.title}}</h4>
-          </div>
-          <b-row class="p-2">
-            <b-col>{{v.price}}</b-col>
-            <b-col><b-button class="btn-sm bg-success">Add to cart</b-button></b-col>
-          </b-row>
-          <b-row class="p-2 view-detail text-white text-center mx-0" v-b-modal.modal-center @click="viewDetail(index)">
-            <b-col>View Details</b-col>
-          </b-row>
-        </div>
-      </b-col>
-      <b-col v-if="resultData && resultData.length == 0">
-        <b-alert :show="dismissCountDown"
-                 dismissible
-                 variant="warning"
-                 @dismissed="dismissCountDown=0"
-                 @dismiss-count-down="countDownChanged">
-          <p>This alert will dismiss after {{dismissCountDown}} seconds...</p>
-          <b-progress variant="warning"
-                      :max="dismissSecs"
-                      :value="dismissCountDown"
-                      height="4px">
-          </b-progress>
-        </b-alert>
-      </b-col>
-    </b-row>
-    <!-- Modal Component -->
-    <b-modal id="modal-center" centered :title="modal.title">
-      <b-row>
-        <b-col><b-img :src="modal.path" fluid /></b-col>
+<template id="">
+  <div >
+    <b-container class="search">
+      <b-row >
+        <b-col lg="3">
+          <b-form-select v-model="selected" :options="options" />
+        </b-col>
+        <b-col lg="3">
+          <b-form-input type="text" v-model="Search_key" placeholder="Search Key"/>
+        </b-col>
         <b-col>
-          <h2>{{modal.description}}</h2>
-          <b-button class="btn-sm bg-success" @click="addToCart()">Add to cart</b-button>
-          <b-button class="btn-sm bg-danger" @click="removeCart(modal.id)">Remove Cart</b-button>
+          <b-button variant="outline-success" @click="Find()">Search</b-button>
         </b-col>
       </b-row>
-    </b-modal>
-  </b-container>
+    </b-container>
+    <b-container>
+      <b-row >
+        <b-col lg="3" v-for="(result,index) in result" class="item-class" :key="index" >
+        <div  class="relative">
+          <div class="backhover">
+              <img  :src="getSRC(result.photo)">
+           <div class="overlay" v-b-modal.modal-center @click="ShowDetail(index)">View Detail</div>
+        </div>
+         <h6 class="absolute" v-if="result.status">{{result.status}}</h6>
+        </div>
+        <p> <h6>Price</h6>{{result.price}}</p>
+      </b-col>
+      </b-row>
+      <b-modal ref="MyModal" id="modal-center" @hide="Auto_Fill()" centered :title="modal.title">
+        <!-- <div slot="modal-header">
+          <button type="button" aria-label="Close" class="close">×x</button>
+        </div> -->
+        <b-row>
+          <b-col v-if="modal.mpath">
+            <div class="box">
+              <img v-if="modal.def" :src="getSRC(modal.mpath)" alt=""/>
+              <img v-if="modal.one" :src="getSRC(modal.mphoto_one)" alt=""/>
+              <img v-if="modal.two" :src="getSRC(modal.mphoto_two)" alt=""/>
+            </div>
+          </b-col>
+          <b-col>
+            <h1 >{{modal.mstatus}}</h1>
+            <h2>{{modal.mprice}}</h2>
+            <div>Color : </div>
+              <input type="radio" @change="ChangeDafault()" id="daf" name="color_btn"  value="original" v-model="picked"/>
+              <label for="def">Original color</label>
+              <input type="radio" @change="ChangeOne()" id="blue" name="color_btn" :value='modal.mwhite' v-model="picked"/>
+              <label for="white">{{modal.mwhite}}</label> <br>
+              <input type="radio" @change="ChangeTwo()" id="white" name="color_btn" :value="modal.mblue" v-model="picked"/>
+              <label for="blue">{{modal.mblue}}</label>
+            <p>Quantity: <input type="number" min="1" max="5" v-model="value"/></p>
+          </b-col>
+        </b-row>
+        <div slot="modal-footer" class="w-100">
+          <b-button size="sm" class="float-right" @click="Cart()">Add to cart</b-button>
+          <b-button size="sm" class="float-left">Cancel Order</b-button>
+          <!-- <router-link  to="/cart">Add To Cart</router-link>
+          <router-link :to="{ name: 'addcart', query: {ans: 'new'}}">Cart</router-link> -->
+        </div>
+      </b-modal>
+    </b-container>
+</div>
+  </div>
 </template>
 <script>
-
-export default {
+import cart from '../../components/AddCart/index.vue'
+export default{
+  components: {
+    cart
+  },
   data () {
     return {
-      manSelected: null,
-      manOptions: [
-        { value: null, text: 'Please select an option' },
-        { value: 'man', text: 'Man' },
-        { value: 'b', text: 'Selected Option' },
-        { value: {'C': '3PO'}, text: 'This is an option with object value' },
-        { value: 'd', text: 'This one is disabled', disabled: true }
-      ],
-      data: [
-        {
-          id: '1001',
-          size: 'small',
-          description: 'small small small',
-          type: 'man',
-          title: 'aa',
-          price: '10000',
-          path: 'https://wallpaperbrowse.com/media/images/3848765-wallpaper-images-download.jpg'
-        },
-        {
-          id: '1002',
-          size: 'small',
-          description: 'small small small',
-          type: 'man',
-          title: 'aa',
-          price: '10000',
-          path: 'https://wallpaperbrowse.com/media/images/3848765-wallpaper-images-download.jpg'
-        },
-        {
-          id: '1003',
-          size: 'small',
-          description: 'small small small',
-          type: 'man',
-          title: 'title',
-          price: '10000',
-          path: 'https://wallpaperbrowse.com/media/images/3848765-wallpaper-images-download.jpg'
-        },
-        {
-          id: '1004',
-          size: 'small',
-          description: 'small small small',
-          type: 'man',
-          title: 'aa',
-          price: '10000',
-          path: 'https://wallpaperbrowse.com/media/images/3848765-wallpaper-images-download.jpg'
-        },
-        {
-          id: '1005',
-          size: 'small',
-          description: 'small small small',
-          type: 'man',
-          title: 'titles',
-          path: 'https://wallpaperbrowse.com/media/images/3848765-wallpaper-images-download.jpg'
-        }
-      ],
-      resultData: null,
-      search: null,
-      dismissSecs: 10,
-      dismissCountDown: 10,
-      showDismissibleAlert: false,
-      modal: {
-        id: null,
-        size: null,
-        description: null,
-        type: null,
-        title: null,
-        path: null
+      picked: 'original',
+      show: false,
+      Search_key: '',
+      result: [],
+      value: 1,
+      likeItem: {
+        title: '',
+        status: '',
+        price: 0,
+        picked: '',
+        quantity: '',
+        url: null
       },
-      orderItems: false,
-      orderDataLists: null,
-      count: 0,
-      localItem: localStorage.getItem('orderItems') || null
+      modal: {
+        def: true,
+        one: null,
+        two: null,
+        title: null,
+        mpath: null,
+        mprice: null,
+        mstatus: null,
+        mphoto_one: null,
+        mphoto_two: null,
+        mblue: null,
+        mwhite: ''
+      },
+      selected: null,
+      options: [
+        {value: null, text: 'Select'},
+        {value: 'Jean', text: 'Jean'},
+        {value: 'Hoodie', text: 'Best Hoodie'},
+        {value: 'Shirt', text: 'Shirt'}
+      ],
+      shopcart: [{name: '', src: '', status: '', colour: '', price: '', quantity: 0, total: ''}],
+      items: [
+                {product: 'Jean', status: 'Best Seller', photo: 'man1.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 1000},
+                {product: 'Hoodie', status: 'New', photo: 'man2.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 1000},
+                {product: 'Shirt', status: 'Sale', photo: 'man3.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 1000},
+                {product: 'Hoodie', status: 'Sale', photo: 'man4.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 1000},
+                {product: 'Jean', status: null, photo: 'man5.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 1000},
+                {product: 'Shirt', status: null, photo: 'man6.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 1000},
+                {product: 'Shirt', status: 'Sale', photo: 'man7.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 3000},
+                {product: 'Hoodie', status: 'New', photo: 'man8.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 2000},
+                {product: 'Jean', status: 'Best Seller', photo: 'man9.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 500},
+                {product: 'Hoodie', status: 'New', photo: 'man10.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 2000},
+                {product: 'Shirt', status: null, photo: 'man1.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 4000},
+                {product: 'Hoodie', status: 'Sale', photo: 'man2.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 900},
+                {product: 'Jean', status: null, photo: 'man3.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 3000},
+                {product: 'Shirt', status: null, photo: 'man4.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 3000},
+                {product: 'Shirt', status: null, photo: 'man5.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 7000},
+                {product: 'Hoodie', status: 'New', photo: 'man6.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 800}
+      ]
     }
   },
+  // computed: {
+  //   SelectAndSearch () {
+  //     return this.selected + '|' + this.Search_key
+  //   }
+  // },
   watch: {
-    $route ({params, query}) {
-      this.localItem = localStorage.getItem('orderItems')
+    SelectAndSearch: function (before, after) {
+    },
+    Search_key: function (newKey, old) {
+      var vm = this
+      vm.Find()
+      // setTimeout(function () {
+      //   vm.Find()
+      // }, 1000)
+    },
+    selected: function (newitem) {
+      this.Find()
     }
+
   },
+  // computed: {
+  //   results: function () {
+  //     var vm = this
+  //     if (vm.Search_key === null || vm.Search_key === '') {
+  //       return vm.items
+  //     } else {
+  //       return this.items.filter(function (e) {
+  //         if (e.status === vm.Search_key) {
+  //           return e
+  //         }
+  //       })
+  //     }
+  //   }
+  // },
   mounted () {
-    this.resultData = this.data
+    this.result = this.items
   },
   methods: {
-    findData: function () {
-      if (this.search === '' || this.search === null && !this.manSelected) {
-        this.resultData = this.data
-        this.dismissCountDown = 10
-      } else if (this.manSelected && this.search) {
-        this.resultData = this.getData(this.manSelected, this.search)
-      } else if (this.manSelected || this.search) {
-        this.resultData = this.getData(this.manSelected, this.search)
-      }
+    Auto_Fill () {
+      this.picked = 'original'
+      this.ChangeDafault()
+      this.value = 1
     },
-    getData: function (selected, search) {
-      if (selected && search) {
-        var result = this.data.filter(function (e) {
-          if (selected === e.type && search === e.title) {
-            return e
-          }
-        })
-      } else if (selected || search) {
-        result = this.data.filter(function (e) {
-          if (selected === e.type || search === e.title) {
-            return e
-          }
-        })
+    Cart () {
+      // this.likeItem.picked = this.picked
+      // console.log(this.likeItem.picked)
+      this.likeItem.title = this.modal.title
+      this.likeItem.status = this.modal.mstatus
+      this.likeItem.price = this.modal.mprice
+      this.likeItem.picked = this.picked
+      this.likeItem.quantity = this.value
+      if (typeof (Storage) !== 'undefined') {
+        var orderLists = []
+        var checkItems = JSON.parse(localStorage.getItem('cartItem'))
+        if (typeof checkItems === 'undefined' || checkItems === null) {
+          orderLists[0] = this.likeItem
+          localStorage.setItem('cartItem', JSON.stringify(orderLists))
+        } else {
+          checkItems[checkItems.length] = this.likeItem
+          // localStorage.removeItem('cartItem')
+          localStorage.setItem('cartItem', JSON.stringify(checkItems))
+          console.log(localStorage.getItem('cartItem'))
+        }
+      } else {
+        console.log('no support')
       }
-      return result
+      this.$refs.MyModal.hide()
+      this.Auto_Fill()
+    },
+    ChangeDafault () {
+      this.modal.def = true
+      this.modal.one = false
+      this.modal.two = false
+      this.likeItem.url = this.modal.mpath
+    },
+    ChangeOne () {
+      this.modal.one = true
+      this.modal.def = false
+      this.modal.two = false
+      this.likeItem.url = this.modal.mphoto_one
+    },
+    ChangeTwo () {
+      this.modal.two = true
+      this.modal.def = false
+      this.modal.one = false
+      this.likeItem.url = this.modal.mphoto_two
+    },
+    ShowDetail (index) {
+      this.modal.title = this.result[index].product
+      this.modal.mstatus = this.result[index].status
+      this.modal.mprice = this.result[index].price
+      this.modal.mpath = this.result[index].photo
+      this.modal.mphoto_one = this.result[index].photo_one
+      this.modal.mphoto_two = this.result[index].photo_two
+      this.modal.mblue = this.result[index].blue
+      this.modal.mwhite = this.result[index].white
+      this.modal.StartImg = true
     },
     countDownChanged (dismissCountDown) {
       this.dismissCountDown = dismissCountDown
       if (this.dismissCountDown === 0) {
-        this.search = ''
+        this.Search_key = ''
       }
     },
-    viewDetail: function (key) {
-      console.log(localStorage.getItem('orderItems'))
-      localStorage.removeItem('orderItems')
-      var activeResult = this.resultData[key]
-      this.modal.id = activeResult.id
-      this.modal.size = activeResult.size
-      this.modal.title = activeResult.title
-      this.modal.type = activeResult.type
-      this.modal.path = activeResult.path
-      this.modal.description = activeResult.description
+    getSRC (pic) {
+      return require('../../assets/' + pic)
     },
-    checkInclude: function () {
-      if (localStorage.getItem('orderItems') !== null) {
-        console.log(localStorage.getItem('orderItems'))
-        var result = localStorage.getItem('orderItems').filter(function (e) {
-          if (this.modal.id === e.id) {
+    Find () {
+      // var i
+      //  // var x = 0
+      // this.result = []
+      // for (i = 0; i < this.items.length; i++) {
+      //   if (this.items[i].product === this.selected) {
+      //     this.result.push(this.items[i])
+      //     // x++
+      var self = this
+      if (this.selected === null && this.Search_key === '') {
+        this.result = this.items
+      } else if (this.selected && this.Search_key) {
+        var val = this.items.filter(function (e) {
+          if (e.product === self.selected && e.status === self.Search_key) {
             return e
           }
         })
-        console.log(result)
-      } else {
-        return true
+        this.result = val
+      } else if ((this.selected && this.Search_key === '') || (this.Search_key && this.selected === null)) {
+        val = this.items.filter(function (e) {
+          if (e.product === self.selected || e.status === self.Search_key) {
+            console.log(self.selected)
+            console.log(self.Search_key)
+            return e
+          }
+        })
+        this.result = val
       }
-    },
-    addToCart: function () {
-      var orderLists = []
-      var checkItems = JSON.parse(this.localItem)
-      if (typeof checkItems === 'undefined' || checkItems === null) {
-        orderLists[0] = this.modal
-        localStorage.setItem('orderItems', JSON.stringify(orderLists))
-      } else {
-        checkItems[checkItems.length] = this.modal
-        localStorage.setItem('orderItems', JSON.stringify(checkItems))
-      }
-      this.$router.push({ path: '/man?' + this.count++ })
-    },
-    removeCart: function (id) {
-      var itemsData = JSON.parse(localStorage.getItem('orderItems')) // updated
-
-      for (var i = 0; i < itemsData.length; i++) {
-        var items = itemsData[i]
-        if (items.id === id) {
-          itemsData.splice(i, 1)
-        }
-      }
-
-      itemsData = JSON.stringify(itemsData) // updated
-
-      // localStorage.setItem('orderItems', itemsData)
-      this.orderItems = false
-      this.orderDataLists = JSON.stringify(itemsData)
-      // this.checkInclude()
     }
   }
 }
 </script>
+<style>
+  select .form-control{
+    border-color: green;
 
-<style lang="css">
-.lists {
+  }
+.search{
+  background: MidnightBlue  ;
+  padding: 15px;
+}
+.relative{
   position: relative;
-  cursor: pointer;
+  height: 250px;
+
+
 }
-.view-detail {
-  display: none;
-}
-.lists:hover .view-detail {
+
+
+.absolute{
+  padding: 10px;
+  background:LightSlateGray  ;
   position: absolute;
-  display: block;
-  width: 94%;
-  margin-top: -40px;
-  background: #191919c7;
+  top:10px;
+  left: 0;
+  color: white;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  color: #f1f1f1;
+  width: 100%;
+  transition: .5s ease;
+  opacity:0;
+  color: white;
+  font-size: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+.backhover {
+  position: relative;
+
+}
+.backhover:hover .overlay {
+  opacity: 1;
+}
+.box {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50% , -50%);
+  width: 240px;
+  height: 300px;
+  overflow: hidden;
+}
+.box img {
+  transition: 1.5s;
+  width: 100%;
+}
+.box:hover img {
+  transform: scale(1.2);
+}
+.modal-body {
+  padding-bottom: 45px;
 }
 </style>
