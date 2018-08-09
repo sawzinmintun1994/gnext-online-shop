@@ -1,36 +1,97 @@
 <template id="">
   <div class="header">
-  <div class="Slidenav">
-      <ul>
-        <li>Men</li>
-        <li>Women</li>
-        <li>Kid</li>
-      </ul>
-  </div>
-  <b-container fluid >
-    <b-row cols="12">
-      <b-col cols="2" sm="2" md="3" lg="6">
-        Logo
-      </b-col>
-      <b-col class="menu" cols="10" sm="10" md="9" lg="5">
-            <ul>
-             <router-link to="/"><li>Home</li></router-link>
-             <router-link to="/men"><li>Men</li></router-link>
-             <router-link to="/women"><li>Women</li></router-link>
-             <router-link to="/kids"><li>Kids</li></router-link>
-             <router-link to="/addcart"><li>Cart <span></span></li></router-link>
-           </ul>
-      </b-col>
-      <b-col><span>&#9776</span> </b-col>
-    </b-row>
-  </b-container>
-  <b-modal ref="cart"> <h1>hello</h1> </b-modal>
+    <!-- <div v-bind:class="[CartView ? blurClass :'', bkClass]"> -->
+    <div id='overlay'>
+      <div class="Slidenav" id="mySidenav" lg="6">
+          <button type="button" class="close-btn" @click="Hide()" name="button">&times</button>
+          <ul>
+            <li v-for="item in order"> <img :src='getSRC(item.url)' class="resize" alt="">
+              <span> {{item.picked}} {{item.title}}</span>
+              <!-- <span>{{item.status}} A wonderful product</span> -->
+              <input type="text" class="QtyInput" name="" v-model="item.quantity">
+              $ {{item.price}}
+            </li>
+            <li> <span>Subtotal</span> ${{SubTotal}}</li>
+            <li>Tax: (5%) <span> {{tax}} </span> </li>
+            <li>Total: {{SumTotal}} </li>
+          </ul>
+      </div>
+    </div>
+    <b-container fluid >
+      <b-row cols="12">
+        <b-col cols="2" sm="2" md="3" lg="6">
+          Logo
+        </b-col>
+        <b-col class="menu" cols="10" sm="10" md="9" lg="5">
+              <ul>
+               <router-link to="/"><li>Home</li></router-link>
+               <router-link to="/man"><li>Man</li></router-link>
+               <router-link to="/woman"><li>Woman</li></router-link>
+               <router-link to="/kids"><li>Kids</li></router-link>
+             </ul>
+        </b-col>
+        <b-col v-if="order"><span @click="Show()">&#9776 <span>{{count.length}}</span></span> </b-col>
+      </b-row>
+    </b-container>
+  <!-- </div> -->
 </div>
 </template>
 <script>
 export default {
+  data () {
+    return {
+      order: JSON.parse(localStorage.getItem('cartItem')) || null,
+      total: 0,
+      bkClass: 'bk',
+      blurClass: 'blur',
+      count: JSON.parse(localStorage.getItem('cartItem')) || 0
+    }
+  },
+  watch: {
+    $route () {
+      this.order = JSON.parse(localStorage.getItem('cartItem'))
+      this.count = this.order
+    },
+    order: {
+      handler: function (newVal) {
+        this.total = 0
+        this.SubTotal
+      },
+      deep: true
+    }
+  },
+  computed: {
+    SubTotal () {
+      var vm = this
+      if (this.order) {
+        this.order.forEach(function (e) {
+          vm.total = vm.total + (e.price * e.quantity)
+        })
+      }
+      return vm.total
+    },
+    tax () {
+      var ans = 0.05 * this.total
+      return ans
+    },
+    SumTotal () {
+      var ans = this.tax + this.SubTotal
+      return ans
+    }
+  },
   methods: {
-    Showing () {
+    getSRC (pic) {
+      return require('../../assets/' + pic)
+    },
+    Show () {
+      this.order = JSON.parse(localStorage.getItem('cartItem'))
+      document.getElementById('mySidenav').style.width = '500px'
+      // document.getElementById('app').style.width = '500px'
+      document.getElementById('overlay').style.display = 'block'
+    },
+    Hide () {
+      document.getElementById('mySidenav').style.width = '0px'
+      document.getElementById('overlay').style.display = 'none'
     }
   }
 }
@@ -67,10 +128,62 @@ a.router-link-exact-active{
   padding-bottom: 15px;
 }
 .Slidenav {
-  position: absolute;
+  position: fixed;
   z-index: 3;
+  top: 54px;
+  right: 0;
+  background: #111;
+  color: grey;
+  font-weight: bold;
+  width: 0px;
+  overflow-y: auto;
+  height: 620px;
+  transition: 0.8s;
+}
+.Slidenav .close-btn {
+  position: absolute;
   top: 0;
+  margin-left: 90%;
+  background-color: black;
+  color: grey;
+  padding-left: 5px;
+  font-size: 2em;
+  border:0;
+
+}
+.Slidenav ul {
+  margin-top: 30px;
+  list-style-type: none;
+}
+.Slidenav li{
+  padding: 5px;
+}
+.QtyInput {
+  width: 50px;
   background: black;
+  border: 0;
+  outline: solid green;
+  color: green;
+  text-align: center;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+li img.resize {
+  width: 70px;
+  height: 60px;
+}
+#overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 54px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
 }
 
 </style>
