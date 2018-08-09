@@ -43,10 +43,10 @@
             <h2>{{modal.mprice}}</h2>
             <div>Color : </div>
               <input type="radio" @change="ChangeDafault()" id="daf" name="color_btn"  value="original" v-model="picked"/>
-              <label for="def">Original color</label>
-              <input type="radio" @change="ChangeOne()" id="blue" name="color_btn" :value='modal.mwhite' v-model="picked"/>
+              <label for="daf">Original color</label>
+              <input type="radio" @change="ChangeOne()" id="white" name="color_btn" :value='modal.mwhite' v-model="picked"/>
               <label for="white">{{modal.mwhite}}</label> <br>
-              <input type="radio" @change="ChangeTwo()" id="white" name="color_btn" :value="modal.mblue" v-model="picked"/>
+              <input type="radio" @change="ChangeTwo()" id="blue" name="color_btn" :value="modal.mblue" v-model="picked"/>
               <label for="blue">{{modal.mblue}}</label>
             <p>Quantity: <input type="number" min="1" max="5" v-model="value"/></p>
           </b-col>
@@ -105,22 +105,22 @@ export default{
       ],
       shopcart: [{name: '', src: '', status: '', colour: '', price: '', quantity: 0, total: ''}],
       items: [
-                {product: 'Jean', status: 'Best Seller', photo: 'man1.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 1000},
-                {product: 'Hoodie', status: 'New', photo: 'man2.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 1000},
-                {product: 'Shirt', status: 'Sale', photo: 'man3.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 1000},
-                {product: 'Hoodie', status: 'Sale', photo: 'man4.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 1000},
-                {product: 'Jean', status: null, photo: 'man5.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 1000},
-                {product: 'Shirt', status: null, photo: 'man6.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 1000},
-                {product: 'Shirt', status: 'Sale', photo: 'man7.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 3000},
-                {product: 'Hoodie', status: 'New', photo: 'man8.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 2000},
-                {product: 'Jean', status: 'Best Seller', photo: 'man9.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 500},
-                {product: 'Hoodie', status: 'New', photo: 'man10.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 2000},
-                {product: 'Shirt', status: null, photo: 'man1.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 4000},
-                {product: 'Hoodie', status: 'Sale', photo: 'man2.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 900},
-                {product: 'Jean', status: null, photo: 'man3.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 3000},
-                {product: 'Shirt', status: null, photo: 'man4.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 3000},
-                {product: 'Shirt', status: null, photo: 'man5.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 7000},
-                {product: 'Hoodie', status: 'New', photo: 'man6.jpg', photo_one: 'white.jpg', photo_two: 'blue.jpg', white: 'White', blue: 'Blue', price: 800}
+                {id: 'man_001', product: 'Jean', status: 'Best Seller', photo: 'man/man1.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 1000},
+                {id: 'man_002', product: 'Hoodie', status: 'New', photo: 'man/man2.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 1000},
+                {id: 'man_003', product: 'Shirt', status: 'Sale', photo: 'man/man3.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 1000},
+                {id: 'man_004', product: 'Hoodie', status: 'Sale', photo: 'man/man4.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 1000},
+                {id: 'man_005', product: 'Jean', status: null, photo: 'man/man5.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 1000},
+                {id: 'man_006', product: 'Shirt', status: null, photo: 'man/man6.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 1000},
+                {id: 'man_007', product: 'Shirt', status: 'Sale', photo: 'man/man7.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 3000},
+                {id: 'man_008', product: 'Hoodie', status: 'New', photo: 'man/man8.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 2000},
+                {id: 'man_009', product: 'Jean', status: 'Best Seller', photo: 'man/man9.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 500},
+                {id: 'man_010', product: 'Hoodie', status: 'New', photo: 'man/man10.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 2000},
+                {id: 'man_011', product: 'Shirt', status: null, photo: 'man/man1.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 4000},
+                {id: 'man_012', product: 'Hoodie', status: 'Sale', photo: 'man/man2.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 900},
+                {id: 'man_013', product: 'Jean', status: null, photo: 'man/man3.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 3000},
+                {id: 'man_014', product: 'Shirt', status: null, photo: 'man/man4.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 3000},
+                {id: 'man_015', product: 'Shirt', status: null, photo: 'man/man5.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 7000},
+                {id: 'man_016', product: 'Hoodie', status: 'New', photo: 'man/man6.jpg', photo_one: 'man/white.jpg', photo_two: 'man/blue.jpg', white: 'White', blue: 'Blue', price: 800}
       ]
     }
   },
@@ -181,12 +181,14 @@ export default{
         if (typeof checkItems === 'undefined' || checkItems === null) {
           orderLists[0] = this.likeItem
           localStorage.setItem('cartItem', JSON.stringify(orderLists))
+          checkItems = 0
         } else {
           checkItems[checkItems.length] = this.likeItem
           // localStorage.removeItem('cartItem')
           localStorage.setItem('cartItem', JSON.stringify(checkItems))
-          console.log(localStorage.getItem('cartItem'))
+          checkItems = checkItems.length
         }
+        this.$router.push({ path: '/man?' + checkItems++ })
       } else {
         console.log('no support')
       }
@@ -221,6 +223,7 @@ export default{
       this.modal.mblue = this.result[index].blue
       this.modal.mwhite = this.result[index].white
       this.modal.StartImg = true
+      this.likeItem.url = this.modal.mpath
     },
     countDownChanged (dismissCountDown) {
       this.dismissCountDown = dismissCountDown

@@ -17,7 +17,5 @@ export default {
 </script>
 
 <style>
-body {
-  background: #e8e8e8;
-}
+
 </style>

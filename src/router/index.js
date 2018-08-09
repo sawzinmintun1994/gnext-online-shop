@@ -4,7 +4,6 @@ import Home from '@/components/home/index'
 import Man from '@/components/man/index'
 import Woman from '@/components/woman/index'
 import Kids from '@/components/kids/index'
-import Cart from '@/components/cart/index'
 
 Vue.use(Router)
 
@@ -30,11 +29,6 @@ export default new Router({
       path: '/kids',
       name: 'Kids',
       component: Kids
-    },
-    {
-      path: '/cart',
-      name: 'Cart',
-      component: Cart
     }
   ]
 })
