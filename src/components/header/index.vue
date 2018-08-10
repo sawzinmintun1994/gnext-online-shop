@@ -5,11 +5,13 @@
       <div class="Slidenav" id="mySidenav" lg="6">
           <button type="button" class="close-btn" @click="Hide()" name="button">&times</button>
           <ul>
-            <li v-for="item in order"> <img :src='getSRC(item.url)' class="resize" alt="">
+            <li v-for="(item,key) in order" :key="key"> <img :src='getSRC(item.url)' class="resize" alt="">
+              <span>Code {{item.id}}</span>
               <span> {{item.picked}} {{item.title}}</span>
               <!-- <span>{{item.status}} A wonderful product</span> -->
               <input type="text" class="QtyInput" name="" v-model="item.quantity">
               $ {{item.price}}
+              <button type="button" @click="Cancel(key)">X</button>
             </li>
             <li> <span>Subtotal</span> ${{SubTotal}}</li>
             <li>Tax: (5%) <span> {{tax}} </span> </li>
@@ -30,7 +32,7 @@
                <router-link to="/kids"><li>Kids</li></router-link>
              </ul>
         </b-col>
-        <b-col v-if="order"><span @click="Show()">&#9776 <span>{{count.length}}</span></span> </b-col>
+        <b-col v-if="order"><span class="icon" @click="Show()">&#9776 <span class="count" v-if="order.length">{{order.length}}</span></span> </b-col>
       </b-row>
     </b-container>
   <!-- </div> -->
@@ -40,7 +42,7 @@
 export default {
   data () {
     return {
-      order: JSON.parse(localStorage.getItem('cartItem')) || null,
+      order: null || JSON.parse(localStorage.getItem('cartItem')),
       total: 0,
       bkClass: 'bk',
       blurClass: 'blur',
@@ -85,13 +87,18 @@ export default {
     },
     Show () {
       this.order = JSON.parse(localStorage.getItem('cartItem'))
-      document.getElementById('mySidenav').style.width = '500px'
       // document.getElementById('app').style.width = '500px'
       document.getElementById('overlay').style.display = 'block'
+      document.getElementById('mySidenav').style.width = '500px'
     },
     Hide () {
       document.getElementById('mySidenav').style.width = '0px'
       document.getElementById('overlay').style.display = 'none'
+    },
+    Cancel (k) {
+      this.order.splice(k, 1)
+      var neworder = this.order
+      localStorage.setItem('cartItem', JSON.stringify(neworder))
     }
   }
 }
@@ -178,12 +185,21 @@ li img.resize {
     width: 100%;
     height: 100%;
     top: 54px;
-    left: 0;
-    right: 0;
     bottom: 0;
     background-color: rgba(0,0,0,0.5);
     z-index: 2;
+    transition: 0.8s;
+    overflow-x: hidden;
     cursor: pointer;
+}
+.count {
+  color: red;
+  font-weight: bold;
+  font-style: italic;
+}
+.icon {
+  color: blue;
+  font-weight: bold;
 }
 
 </style>

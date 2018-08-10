@@ -81,7 +81,8 @@ export default{
         price: 0,
         picked: '',
         quantity: '',
-        url: null
+        url: null,
+        id: null
       },
       modal: {
         def: true,
@@ -94,7 +95,8 @@ export default{
         mphoto_one: null,
         mphoto_two: null,
         mblue: null,
-        mwhite: ''
+        mwhite: '',
+        id: null
       },
       selected: null,
       options: [
@@ -168,8 +170,7 @@ export default{
       this.value = 1
     },
     Cart () {
-      // this.likeItem.picked = this.picked
-      // console.log(this.likeItem.picked)
+      this.likeItem.id = this.modal.id
       this.likeItem.title = this.modal.title
       this.likeItem.status = this.modal.mstatus
       this.likeItem.price = this.modal.mprice
@@ -183,8 +184,14 @@ export default{
           localStorage.setItem('cartItem', JSON.stringify(orderLists))
           checkItems = 0
         } else {
+          var vm = this
+          for (var i = 0; i < checkItems.length; i++) {
+            if (vm.likeItem.id === checkItems[i].id) {
+              alert('Same')
+              checkItems.splice(i, 1)
+            }  /* Check already exit item */
+          }
           checkItems[checkItems.length] = this.likeItem
-          // localStorage.removeItem('cartItem')
           localStorage.setItem('cartItem', JSON.stringify(checkItems))
           checkItems = checkItems.length
         }
@@ -223,6 +230,7 @@ export default{
       this.modal.mblue = this.result[index].blue
       this.modal.mwhite = this.result[index].white
       this.modal.StartImg = true
+      this.modal.id = this.result[index].id
       this.likeItem.url = this.modal.mpath
     },
     countDownChanged (dismissCountDown) {
