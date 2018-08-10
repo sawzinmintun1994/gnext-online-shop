@@ -32,7 +32,7 @@
                <router-link to="/kids"><li>Kids</li></router-link>
              </ul>
         </b-col>
-        <b-col v-if="order"><span class="icon" @click="Show()">&#9776 <span class="count" v-if="order.length">{{order.length}}</span></span> </b-col>
+        <b-col v-if="order"><span class="icon" @click="Show()">&#9776   <span class="count" v-if="order.length">{{order.length}}</span></span> </b-col>
       </b-row>
     </b-container>
   <!-- </div> -->
