@@ -9,7 +9,7 @@
     <ul>
       <li @click="boy()"><i class="left"></i>Boy</li>
       <li @click="all()">All</li>
-      <li @click="girl()">Girl<i class="right"></i></li>
+      <li @click="baby()">Girl<i class="right"></i></li>
     </ul>
     <h1 class="collection">Our Collection</h1>
     <b-container>
@@ -40,7 +40,7 @@ export default {
         {Id: 1, name: 'Shirt', image: 'boy.jpg', price: '$10', status: 'New Arrivals'},
         {Id: 2, name: 'Shirt', image: 'boy1.jpg', price: '$11', status: 'Best Seller'},
         {Id: 3, name: 'Shirt', image: 'boy2.jpg', price: '$15', status: 'New Arrivals'},
-        {Id: 4, name: 'Dress', image: 'girl.jpg', price: '$20', status: 'New Arrivals'},
+        {Id: 4, name: 'Dress', image: 'girls.jpg', price: '$20', status: 'New Arrivals'},
         {Id: 5, name: 'Dress', image: 'girl1.jpg', price: '$22', status: 'Best Seller'},
         {Id: 6, name: 'Dress', image: 'girl2.jpg', price: '$17', status: 'Best Seller'}
       ]
@@ -59,6 +59,18 @@ export default {
     boy () {
       var sef = this
       this.select = 'Shirt'
+      if (this.select) {
+        var val = this.kid.filter(function (e) {
+          if (e.name === sef.select) {
+            return e
+          }
+        })
+        this.result = val
+      }
+    },
+    baby () {
+      var sef = this
+      this.select = 'Dress'
       if (this.select) {
         var val = this.kid.filter(function (e) {
           if (e.name === sef.select) {
