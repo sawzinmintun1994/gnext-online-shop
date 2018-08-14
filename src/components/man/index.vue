@@ -16,20 +16,20 @@
     <b-container>
       <b-row >
         <b-col lg="3" v-for="(result,index) in result" class="item-class" :key="index" >
-        <div  class="relative">
-          <div class="backhover">
+          <div  class="relative">
+            <div class="backhover">
               <img  :src="getSRC(result.photo)">
-           <div class="overlay" v-b-modal.modal-center @click="ShowDetail(index)">View Detail</div>
-        </div>
-         <h6 class="absolute" v-if="result.status">{{result.status}}</h6>
-        </div>
-        <p> <h6>Price</h6>{{result.price}}</p>
-      </b-col>
+              <div class="overlay" v-b-modal.modal-center @click="ShowDetail(index)">View Detail</div>
+            </div>
+            <h6 class="absolute" v-if="result.status">{{result.status}}</h6>
+            <div>
+              <h6>Price</h6>
+              {{result.price}}
+            </div>
+          </div>
+        </b-col>
       </b-row>
       <b-modal ref="MyModal" id="modal-center" @hide="Auto_Fill()" centered :title="modal.title">
-        <!-- <div slot="modal-header">
-          <button type="button" aria-label="Close" class="close">×x</button>
-        </div> -->
         <b-row>
           <b-col v-if="modal.mpath">
             <div class="box">
@@ -52,10 +52,8 @@
           </b-col>
         </b-row>
         <div slot="modal-footer" class="w-100">
+          <b-button size="sm" variant="danger" v-if="showBtn" @click="removeOrder(modal.id)">Remove Order</b-button>
           <b-button size="sm" class="float-right" @click="Cart()">Add to cart</b-button>
-          <b-button size="sm" class="float-left">Cancel Order</b-button>
-          <!-- <router-link  to="/cart">Add To Cart</router-link>
-          <router-link :to="{ name: 'addcart', query: {ans: 'new'}}">Cart</router-link> -->
         </div>
       </b-modal>
     </b-container>
@@ -75,6 +73,7 @@ export default{
       Search_key: '',
       result: [],
       value: 1,
+      showBtn: false,
       likeItem: {
         title: '',
         status: '',
@@ -126,44 +125,35 @@ export default{
       ]
     }
   },
-  // computed: {
-  //   SelectAndSearch () {
-  //     return this.selected + '|' + this.Search_key
-  //   }
-  // },
   watch: {
     SelectAndSearch: function (before, after) {
     },
     Search_key: function (newKey, old) {
       var vm = this
       vm.Find()
-      // setTimeout(function () {
-      //   vm.Find()
-      // }, 1000)
     },
     selected: function (newitem) {
       this.Find()
     }
 
   },
-  // computed: {
-  //   results: function () {
-  //     var vm = this
-  //     if (vm.Search_key === null || vm.Search_key === '') {
-  //       return vm.items
-  //     } else {
-  //       return this.items.filter(function (e) {
-  //         if (e.status === vm.Search_key) {
-  //           return e
-  //         }
-  //       })
-  //     }
-  //   }
-  // },
   mounted () {
     this.result = this.items
   },
   methods: {
+    removeOrder: function (id) {
+      var checkItems = JSON.parse(localStorage.getItem('cartItem'))
+      for (var i = 0; i < checkItems.length; i++) {
+        if (id === checkItems[i].id) {
+          checkItems.splice(i, 1)
+        }  /* Check already exit item */
+      }
+      localStorage.removeItem('cartItem')
+      localStorage.setItem('cartItem', JSON.stringify(checkItems))
+      this.$refs.MyModal.hide()
+      this.showBtn = false
+      this.$router.push({ path: '/man?' + this.$route.query.coutn++ })
+    },
     Auto_Fill () {
       this.picked = 'original'
       this.ChangeDafault()
@@ -187,7 +177,6 @@ export default{
           var vm = this
           for (var i = 0; i < checkItems.length; i++) {
             if (vm.likeItem.id === checkItems[i].id) {
-              alert('Same')
               checkItems.splice(i, 1)
             }  /* Check already exit item */
           }
@@ -195,7 +184,7 @@ export default{
           localStorage.setItem('cartItem', JSON.stringify(checkItems))
           checkItems = checkItems.length
         }
-        this.$router.push({ path: '/man?' + checkItems++ })
+        this.$router.push({ path: '/man?coutn=' + checkItems++ })
       } else {
         console.log('no support')
       }
@@ -221,17 +210,34 @@ export default{
       this.likeItem.url = this.modal.mphoto_two
     },
     ShowDetail (index) {
-      this.modal.title = this.result[index].product
-      this.modal.mstatus = this.result[index].status
-      this.modal.mprice = this.result[index].price
-      this.modal.mpath = this.result[index].photo
-      this.modal.mphoto_one = this.result[index].photo_one
-      this.modal.mphoto_two = this.result[index].photo_two
-      this.modal.mblue = this.result[index].blue
-      this.modal.mwhite = this.result[index].white
-      this.modal.StartImg = true
-      this.modal.id = this.result[index].id
-      this.likeItem.url = this.modal.mpath
+      var cartItem = JSON.parse(localStorage.getItem('cartItem'))
+      var id = this.result[index].id
+      for (var i = 0; i < cartItem.length; i++) {
+        if (id === cartItem[i].id) {
+          this.showBtn = true
+          this.modal.title = cartItem[i].title
+          this.modal.mstatus = cartItem[i].status
+          this.modal.mprice = cartItem[i].price
+          this.modal.mpath = cartItem[i].url
+          this.value = cartItem[i].quantity
+          this.picked = cartItem[i].picked
+          this.modal.StartImg = true
+          this.modal.id = cartItem[i].id
+          this.likeItem.url = this.modal.mpath
+        } else {
+          this.modal.title = this.result[index].product
+          this.modal.mstatus = this.result[index].status
+          this.modal.mprice = this.result[index].price
+          this.modal.mpath = this.result[index].photo
+          this.modal.mphoto_one = this.result[index].photo_one
+          this.modal.mphoto_two = this.result[index].photo_two
+          this.modal.mblue = this.result[index].blue
+          this.modal.mwhite = this.result[index].white
+          this.modal.StartImg = true
+          this.modal.id = this.result[index].id
+          this.likeItem.url = this.modal.mpath
+        }
+      }
     },
     countDownChanged (dismissCountDown) {
       this.dismissCountDown = dismissCountDown
@@ -243,13 +249,6 @@ export default{
       return require('../../assets/' + pic)
     },
     Find () {
-      // var i
-      //  // var x = 0
-      // this.result = []
-      // for (i = 0; i < this.items.length; i++) {
-      //   if (this.items[i].product === this.selected) {
-      //     this.result.push(this.items[i])
-      //     // x++
       var self = this
       if (this.selected === null && this.Search_key === '') {
         this.result = this.items
@@ -274,54 +273,57 @@ export default{
   }
 }
 </script>
-<style>
-  select .form-control{
-    border-color: green;
+<style lang="scss">
 
-  }
-.search{
-  background: MidnightBlue  ;
-  padding: 15px;
+.search {
+  background: #dbe8ed;
+  border-radius: 3px;
+  padding: 20px;
 }
 .relative{
   position: relative;
-  height: 250px;
-
-
+  border: 1px solid #287a95;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 3px;
 }
-
 
 .absolute{
   padding: 10px;
-  background:LightSlateGray  ;
+  background: #096686;
+  border-radius: 2px;
   position: absolute;
   top:10px;
-  left: 0;
+  left: 12px;
   color: white;
 }
 
 .overlay {
   position: absolute;
   bottom: 0;
-  background: rgb(0, 0, 0);
-  background: rgba(0, 0, 0, 0.5); /* Black see-through */
-  color: #f1f1f1;
+  background: rgba(219, 232, 237, 0.5); /* Black see-through */
   width: 100%;
   transition: .5s ease;
   opacity:0;
-  color: white;
+  color: #096686;
   font-size: 20px;
   padding: 20px;
   text-align: center;
+  cursor: pointer;
 }
 
 .backhover {
   position: relative;
+  img {
+    height: 230px;
+  }
+  &:hover {
+    .overlay {
+      opacity: 1;
+    }
+  }
+}
 
-}
-.backhover:hover .overlay {
-  opacity: 1;
-}
 .box {
   position: absolute;
   top: 60%;

@@ -1,30 +1,33 @@
 <template id="">
   <div class="header">
     <!-- <div v-bind:class="[CartView ? blurClass :'', bkClass]"> -->
-    <div id='overlay'>
-      <div class="Slidenav" id="mySidenav" lg="6">
-          <button type="button" class="close-btn" @click="Hide()" name="button">&times</button>
-          <ul>
-            <li v-for="(item,key) in order" :key="key"> <img :src='getSRC(item.url)' class="resize" alt="">
-              <span>Code {{item.id}}</span>
-              <span> {{item.picked}} {{item.title}}</span>
-              <!-- <span>{{item.status}} A wonderful product</span> -->
-              <input type="text" class="QtyInput" name="" v-model="item.quantity">
-              $ {{item.price}}
-              <button type="button" @click="Cancel(key)">X</button>
-            </li>
-            <li> <span>Subtotal</span> ${{SubTotal}}</li>
-            <li>Tax: (5%) <span> {{tax}} </span> </li>
-            <li>Total: {{SumTotal}} </li>
-          </ul>
-      </div>
+    <div id='overlay'></div>
+    <div class="Slidenav" id="mySidenav" lg="6">
+        <button type="button" class="close-btn" @click="Hide()" name="button">&times</button>
+        <table class="mt-5">
+          <tbody>
+            <tr v-for="(item,key) in order" :key="key">
+              <td><img :src='getSRC(item.url)' class="resize" /></td>
+              <td>Code : {{ item.id }}</td>
+              <td>{{ item.picked }}</td>
+              <td>{{ item.title }}</td>
+              <td><input type="number" min="1" class="QtyInput" name="" v-model="item.quantity"></td>
+              <td>{{ item.price }}</td>
+            </tr>
+            <ul>
+              <li> <span>Subtotal</span> ${{SubTotal}}</li>
+              <li>Tax: (5%) <span> {{tax}} </span> </li>
+              <li>Total: {{SumTotal}} </li>
+            </ul>
+          </tbody>
+        </table>
     </div>
     <b-container fluid >
       <b-row cols="12">
         <b-col cols="2" sm="2" md="3" lg="6">
           Logo
         </b-col>
-        <b-col class="menu" cols="10" sm="10" md="9" lg="5">
+        <b-col class="menu" cols="8" sm="8" md="8" lg="5">
               <ul>
                <router-link to="/"><li>Home</li></router-link>
                <router-link to="/man"><li>Man</li></router-link>
@@ -32,10 +35,9 @@
                <router-link to="/kids"><li>Kids</li></router-link>
              </ul>
         </b-col>
-        <b-col v-if="order"><span class="icon" @click="Show()">&#9776   <span class="count" v-if="order.length">{{order.length}}</span></span> </b-col>
+        <b-col v-if="order" cols="2" sm="2" md="1" lg="1"><span class="icon" @click="Show()">&#9776   <span class="count" v-if="order.length">{{order.length}}</span></span> </b-col>
       </b-row>
     </b-container>
-  <!-- </div> -->
 </div>
 </template>
 <script>
@@ -87,7 +89,6 @@ export default {
     },
     Show () {
       this.order = JSON.parse(localStorage.getItem('cartItem'))
-      // document.getElementById('app').style.width = '500px'
       document.getElementById('overlay').style.display = 'block'
       document.getElementById('mySidenav').style.width = '500px'
     },
@@ -103,37 +104,41 @@ export default {
   }
 }
 </script>
-<style scoped>
-.menu ul li{
-  display: inline;
-  padding: 20px;
-  list-style-type: none;
+<style lang="scss" scoped>
+.menu {
+  ul {
+    margin: 0;
+    padding: 0;
+    li {
+      display: inline;
+      padding: 20px;
+      list-style-type: none;
+    }
+    a {
+      color: #000;
+      text-decoration: none;
+      &.router-link-exact-active {
+        border-bottom: 4px solid black;
+        font-weight: bold;
+        padding-bottom: 15px;
+      }
+    }
+  }
 }
-.header {
-    margin-bottom: 55px;
-}
-.header .row{
-  padding: 15px;
-  background-color:Beige ;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1;
 
+.header {
+  margin-bottom: 62px;
+  .row{
+    padding: 15px;
+    background: linear-gradient(to right, #076585 , #fff);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+
+  }
 }
-.menu ul a {
-  color: #000;
-  text-decoration: none;
-}
-.menu ul {
-  margin: 0;
-  padding: 0;
-}
-a.router-link-exact-active{
-  border-bottom: 4px solid black;
-  font-weight: bold;
-  padding-bottom: 15px;
-}
+
 .Slidenav {
   position: fixed;
   z-index: 3;
@@ -144,26 +149,29 @@ a.router-link-exact-active{
   font-weight: bold;
   width: 0px;
   overflow-y: auto;
-  height: 620px;
+  height: 100%;
+  max-height: 94%;
   transition: 0.8s;
-}
-.Slidenav .close-btn {
-  position: absolute;
-  top: 0;
-  margin-left: 90%;
-  background-color: black;
-  color: grey;
-  padding-left: 5px;
-  font-size: 2em;
-  border:0;
-
-}
-.Slidenav ul {
-  margin-top: 30px;
-  list-style-type: none;
-}
-.Slidenav li{
-  padding: 5px;
+  .close-btn {
+    position: absolute;
+    top: 0;
+    margin-left: 90%;
+    background-color: black;
+    color: grey;
+    padding-left: 5px;
+    font-size: 2em;
+    border:0;
+  }
+  table {
+    td {
+      img {
+        &.resize {
+          width: 70px;
+          height: 60px;
+        }
+      }
+    }
+  }
 }
 .QtyInput {
   width: 50px;
@@ -174,10 +182,6 @@ a.router-link-exact-active{
   text-align: center;
   margin-left: 20px;
   margin-right: 20px;
-}
-li img.resize {
-  width: 70px;
-  height: 60px;
 }
 #overlay {
     position: fixed;
