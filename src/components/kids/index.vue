@@ -96,7 +96,7 @@ export default {
   }
   ul{
     text-align: center;
-    border-bottom: 1px solid #ec9207c7;
+    border-bottom: 1px solid #0b6887;
     padding: 20px;
     li{
       display: inline;
@@ -104,17 +104,17 @@ export default {
       font-size: 2em;
       padding: 20px;
       cursor: pointer;
-      color: #ec9207c7;
+      color: #0b6887;
       &:not(:last-child):after{
         content: "I";
         margin: 0 5px 0 50px;
         color: #a2a0a0ba;
       }
       &:hover{
-        color: #353232cc;
+        color: #00a0ef;
       }
       i{
-        border: solid #ec9207c7;
+        border: solid #0b6887;
         border-width: 0 5px 5px 0;
         display: inline-block;
         padding: 3px;
@@ -140,10 +140,10 @@ export default {
     font-family: cursive;
     padding: 20px;
     text-align: center;
-    color: #ec9207c7;
+    color: #0b6887;
   }
   .collection{
-    color: #353232cc;
+    color: #0b6887;
     font-family: sans-serif;
   }
   p{
@@ -159,7 +159,7 @@ export default {
   .products{
     .card{
       .card-body{
-        background: #ec9207c7;
+        background: #096686;
       }
       .container{
         position: relative;
@@ -169,7 +169,7 @@ export default {
         position: absolute;
         top: 20px;
         left: 20px;
-        background-color: #ec9207c7;
+        background-color: #bbd5deb3;
         color: black;
         padding-left: 20px;
         padding-right: 20px;
