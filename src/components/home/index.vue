@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="home">
     <b-container fluid class="cover">
       <b-row>
         <b-col cols="12" md="6">
@@ -7,9 +7,9 @@
         </b-col>
         <b-col cols="12"md="6">
           <h5>TERNDING COLLECTION</h5>
-          <h2><span style="color:orange;">BRAND</span>WATCH</h2>
+          <h2><span>BRAND</span>WATCH</h2>
           <P>This watch is a good quality</p>
-          <span>Price:</span><span style="font-size:150%;">$220</span><br>
+          <span>Price:</span><span class="font-size">$220</span><br>
           <b-btn class="btn">BuyNow</b-btn>
         </b-col>
       </b-row>
@@ -189,49 +189,62 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+.home{
  .cover {
    background: honeydew;
    padding: 20px;
- }
- .cover .row div:nth-child(1){
-   text-align: right;
- }
- .btn{
-   border-radius: 20px;
-   background: white;
-   color: black;
-   padding: 8px 30px;
-   font-size: 14px;
-   outline: none;
-   display: inline;
-   text-decoration: none;
- }
- .line{
+    h2 span{
+     color:#5f9cb0;
+    }
+    .font-size{
+      font-size:150%;
+    }
+   .row {
+      div:nth-child(1){
+        text-align: right;
+      }
+    }
+    .btn{
+      border-radius: 20px;
+      background: white;
+      color: black;
+      padding: 8px 30px;
+      font-size: 14px;
+      outline: none;
+      display: inline;
+      text-decoration: none;
+    }
+  }
+  .line{
    positoion: relative;
    display: inline-block;
    padding-bottom:  20px;
-   }
-  .line::after{
+    &::after{
      content:'';
      height: 3px;
      width:20%;
-     background: orange;
+     background: #5f9cb0;
      position:absolute;
      left:calc(15% - 10%);
      bottom: 50px;
+    }
   }
-  .products .row div h1{
-    text-align: center;
-  }
-  .products .row div h1::after{
-     content:"";
-     position:absolute;
-     width:100px;
-     border-bottom:3px solid orange;
-     bottom:0;
-     left:50%;
-     margin-left:-50px;
+  .products {
+    .row {
+      div h1{
+        text-align: center;
+        &::after{
+          content:"";
+          position:absolute;
+          width:100px;
+          border-bottom:3px solid #5f9cb0;
+          bottom:0;
+          left:50%;
+          margin-left:-50px;
+        }
+      }
+    }
   }
   .more{
     text-align: center;
@@ -258,8 +271,9 @@ export default {
     width: 500px;
     height: 50px;
     bottom: 100px;
-}
-.new-container{
-  background: red;
+  }
+  .new-container{
+    background: red;
+  }
 }
 </style>
