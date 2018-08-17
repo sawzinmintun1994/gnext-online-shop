@@ -225,8 +225,8 @@ export default {
       .hoverimage:hover .overlay {
           opacity: 1;
       }
-      .card-body{
-        background: #0a6786;
+      .card-body {
+        background: #237693;
       }
       .container {
         position: relative;
@@ -236,7 +236,7 @@ export default {
         position: absolute;
         top: 20px;
         left: 20px;
-        background-color: #bbd5deb3;
+        background-color: #0765856e;
         color: black;
         padding-left: 20px;
         padding-right: 20px;

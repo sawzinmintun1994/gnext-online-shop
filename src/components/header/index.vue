@@ -204,6 +204,7 @@ export default {
 .icon {
   color: #4c90a7;
   font-weight: bold;
+  cursor: pointer;
 }
 
 </style>

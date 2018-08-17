@@ -91,12 +91,12 @@ export default {
       text-align: center;
       padding: 7px;
       font-family: serif;
-      color: #353232cc;
+      color: #1f7491;
     }
   }
   ul{
     text-align: center;
-    border-bottom: 1px solid #0b6887;
+    border-bottom: 1px solid #1f7491;
     padding: 20px;
     li{
       display: inline;
@@ -104,23 +104,18 @@ export default {
       font-size: 2em;
       padding: 20px;
       cursor: pointer;
-      color: #0b6887;
+      color: #1f7491;
       &:not(:last-child):after{
         content: "I";
         margin: 0 5px 0 50px;
-        color: #a2a0a0ba;
+        color: black;
       }
       &:hover{
-        color: #00a0ef;
+        color: #04d2e8cc;
       }
       i{
-        border: solid #0b6887;
-        border-width: 0 5px 5px 0;
-        display: inline-block;
-        padding: 3px;
-        &:hover{
-          color: #353232cc;
-        }
+        border: solid #1f7491;
+        color: #00a0ef;
       }
       .left{
         transform: rotate(135deg);
@@ -140,11 +135,10 @@ export default {
     font-family: cursive;
     padding: 20px;
     text-align: center;
-    color: #0b6887;
+    color: #1f7491;
   }
   .collection{
-    color: #0b6887;
-    font-family: sans-serif;
+    color: #1f7491;
   }
   p{
     color: black;
@@ -159,7 +153,7 @@ export default {
   .products{
     .card{
       .card-body{
-        background: #096686;
+        background: #1f7491;
       }
       .container{
         position: relative;
@@ -169,7 +163,7 @@ export default {
         position: absolute;
         top: 20px;
         left: 20px;
-        background-color: #bbd5deb3;
+        background-color: #0765856e;
         color: black;
         padding-left: 20px;
         padding-right: 20px;
