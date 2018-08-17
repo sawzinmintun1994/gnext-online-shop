@@ -7,7 +7,7 @@
         </b-col>
         <b-col cols="12"md="6">
           <h5>TERNDING COLLECTION</h5>
-          <h2><span style="color:orange;">BRAND</span>WATCH</h2>
+          <h2><span style="color:#0b6887;">BRAND</span>WATCH</h2>
           <P>This watch is a good quality</p>
           <span>Price:</span><span style="font-size:150%;">$220</span><br>
           <b-btn class="btn">BuyNow</b-btn>
@@ -216,7 +216,7 @@ export default {
      content:'';
      height: 3px;
      width:20%;
-     background: orange;
+     background: #0b6887;
      position:absolute;
      left:calc(15% - 10%);
      bottom: 50px;
@@ -228,7 +228,7 @@ export default {
      content:"";
      position:absolute;
      width:100px;
-     border-bottom:3px solid orange;
+     border-bottom:3px solid #0b6887;
      bottom:0;
      left:50%;
      margin-left:-50px;
@@ -237,7 +237,7 @@ export default {
     text-align: center;
   }
   .checked{
-    color: orange;
+    color: #ffce15;
   }
   .img-fluid{
     text-align: center;

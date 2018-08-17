@@ -202,6 +202,7 @@ export default {
   }
   .product{
     .card{
+      margin-top: 20px;
       .hoverimage{
         width: 100%;
         position: relative;
@@ -225,7 +226,7 @@ export default {
           opacity: 1;
       }
       .card-body{
-        background: #ec9207c7;
+        background: #0a6786;
       }
       .container {
         position: relative;
@@ -235,7 +236,7 @@ export default {
         position: absolute;
         top: 20px;
         left: 20px;
-        background-color: #ec9207c7;
+        background-color: #bbd5deb3;
         color: black;
         padding-left: 20px;
         padding-right: 20px;
