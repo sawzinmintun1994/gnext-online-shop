@@ -35,7 +35,7 @@
                <router-link to="/kids"><li>Kids</li></router-link>
              </ul>
         </b-col>
-        <b-col v-if="order" cols="2" sm="2" md="1" lg="1"><span class="icon" @click="Show()"><i class="fa fa-shopping-cart fa-2x"></i><span class="count" v-if="order.length">{{order.length}}</span></span> </b-col>
+        <b-col v-if="order" cols="2" sm="2" md="1" lg="1"><span class="icon" @click="Show()"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i><span class="count" v-if="order.length">{{order.length}}</span></span> </b-col>
       </b-row>
     </b-container>
 </div>
@@ -202,7 +202,7 @@ export default {
   font-style: italic;
 }
 .icon {
-  color: #10baf3;
+  color: #4c90a7;
   font-weight: bold;
   cursor: pointer;
 }

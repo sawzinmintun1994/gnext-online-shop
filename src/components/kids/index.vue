@@ -115,12 +115,7 @@ export default {
       }
       i{
         border: solid #1f7491;
-        border-width: 0 5px 5px 0;
-        display: inline-block;
-        padding: 3px;
-        &:hover{
-          color: #353232cc;
-        }
+        color: #00a0ef;
       }
       .left{
         transform: rotate(135deg);
@@ -144,7 +139,6 @@ export default {
   }
   .collection{
     color: #1f7491;
-    font-family: sans-serif;
   }
   p{
     color: black;

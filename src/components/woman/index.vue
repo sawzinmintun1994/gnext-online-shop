@@ -225,7 +225,7 @@ export default {
       .hoverimage:hover .overlay {
           opacity: 1;
       }
-      .card-body{
+      .card-body {
         background: #237693;
       }
       .container {
